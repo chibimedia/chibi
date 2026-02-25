@@ -135,7 +135,9 @@ CATEGORIES.forEach(cat => {
   cat.sites.forEach(s => {
     if (!s.enabled) return;
     let img = s.logo || '';
-    if (img.startsWith('./')) img = img.replace('./logo/', 'assets/logo/');
+  if (img.startsWith('./')) {
+  img = img.replace('./logo/', 'https://raw.githubusercontent.com/N3rdmade/TBCPL/main/logo/');
+}
     LINKS.push({
       id: (cat.id + '_' + (s.name || '').replace(/\s+/g,'_').toLowerCase()),
       title: s.name,
