@@ -52,16 +52,13 @@ let storedCatOrder = JSON.parse(localStorage.getItem(LS_CAT_ORDER) || "null");
 /* compute category order (merge stored order with defaults and extras) */
 function getCategoryOrder() {
   const allCats = Array.from(new Set(LINKS.map(l => l.category)));
-  // Start with default keys
   const defaultKeys = DEFAULT_CATEGORY_ORDER.map(d => d.key);
   let order = storedCatOrder && Array.isArray(storedCatOrder) ? storedCatOrder : defaultKeys.slice();
 
-  // ensure all categories are present
   allCats.forEach(c => {
     if (!order.includes(c)) order.push(c);
   });
 
-  // filter to only categories that exist
   order = order.filter(c => allCats.includes(c));
   return order;
 }
@@ -80,7 +77,7 @@ function renderAll(query = "") {
   const order = getCategoryOrder();
 
   if (order.length === 0) {
-    content.innerHTML = "<p class='muted'>No links configured. Edit script.js to add links.</p>";
+    content.innerHTML = `<p class="muted">No links configured. Edit script.js to add links.</p>`;
     return;
   }
 
@@ -115,7 +112,6 @@ function renderAll(query = "") {
       const card = document.createElement("article");
       card.className = "card";
 
-      // anchor + image
       const a = document.createElement("a");
       a.href = item.url;
       a.target = "_blank";
@@ -129,7 +125,6 @@ function renderAll(query = "") {
 
       a.appendChild(img);
 
-      // meta
       const meta = document.createElement("div");
       meta.className = "meta";
       const t = document.createElement("div");
@@ -141,7 +136,6 @@ function renderAll(query = "") {
       meta.appendChild(t);
       meta.appendChild(c);
 
-      // actions row (hide)
       const actions = document.createElement("div");
       actions.className = "actions";
       const hideBtn = document.createElement("button");
@@ -154,7 +148,6 @@ function renderAll(query = "") {
       };
       actions.appendChild(hideBtn);
 
-      // assemble
       card.appendChild(a);
       card.appendChild(meta);
       card.appendChild(actions);
@@ -187,7 +180,7 @@ function restoreLink(id) {
 function renderHiddenList(){
   hiddenList.innerHTML = "";
   if (hiddenLinks.length === 0) {
-    hiddenList.innerHTML = "<div class='muted'>No hidden links.</div>";
+    hiddenList.innerHTML = `<div class="muted">No hidden links.</div>`;
     return;
   }
   hiddenLinks.forEach(id => {
@@ -195,7 +188,7 @@ function renderHiddenList(){
     if (!item) return;
     const row = document.createElement("div");
     row.className = "cat-row";
-    row.innerHTML = `<div style="flex:1">${item.title} <div class="muted" style="font-size:11px">${labelFor(item.category)}</div></div>`;
+    row.innerHTML = `<div style="flex:1">${item.title}<div class="muted" style="font-size:11px">${labelFor(item.category)}</div></div>`;
     const btn = document.createElement("button");
     btn.className = "btn";
     btn.textContent = "Restore";
@@ -221,15 +214,11 @@ function renderCategoryList(){
 
     const up = document.createElement("button"); up.className = "btn"; up.textContent = "↑";
     up.disabled = idx === 0;
-    up.onclick = () => {
-      moveCategory(key, -1);
-    };
+    up.onclick = () => { moveCategory(key, -1); };
 
     const down = document.createElement("button"); down.className = "btn"; down.textContent = "↓";
     down.disabled = idx === order.length - 1;
-    down.onclick = () => {
-      moveCategory(key, 1);
-    };
+    down.onclick = () => { moveCategory(key, 1); };
 
     controls.appendChild(up); controls.appendChild(down);
     row.appendChild(controls);
