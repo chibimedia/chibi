@@ -80,5 +80,23 @@
   </footer>
 
   <script src="script.js"></script>
+
+  <!-- Analytics stub (privacy first):
+       - If you want real analytics, use Plausible or Fathom: see README for instructions.
+       - This site ships a local client-side counter that stores counts in the browser only
+         (privacy-preserving, no external calls). It helps you test behavior. -->
+  <script>
+    (function(){
+      try {
+        const key = "chibi_local_visits_v1";
+        const n = Number(localStorage.getItem(key) || "0") + 1;
+        localStorage.setItem(key, String(n));
+        // Expose for debugging: window._chibiVisits
+        window._chibiVisits = n;
+        console.log("Chibi local visit count:", n);
+      } catch(e) { /* ignore */ }
+    })();
+  </script>
 </body>
 </html>
+
