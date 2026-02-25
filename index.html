@@ -4,85 +4,105 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Chibi — Link Directory</title>
-  <meta name="description" content="Chibi — organized, fast link directory. Click thumbnails to open." />
+  <meta name="description" content="Chibi — organized, fast link directory. Safe browsing first." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2300d1a1'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2300f5c8'/%3E%3C/svg%3E" />
 </head>
 <body>
+
+  <!-- Scanline overlay -->
+  <div class="scanlines" aria-hidden="true"></div>
+
   <header class="site-header">
     <div class="wrap header-row">
+
       <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <!-- inline chibi dog svg -->
-          <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chibi dog logo">
-            <g fill="none" fill-rule="evenodd">
-              <circle cx="50" cy="50" r="46" fill="#00d1a1"/>
-              <ellipse cx="50" cy="58" rx="28" ry="20" fill="#fff"/>
-              <path d="M30 40 C30 26, 44 26, 45 40" fill="#fff"/>
-              <path d="M70 40 C70 26, 56 26, 55 40" fill="#fff"/>
-              <circle cx="40" cy="54" r="4" fill="#071017"/>
-              <circle cx="60" cy="54" r="4" fill="#071017"/>
-              <path d="M44 68 C48 74, 52 74, 56 68" stroke="#071017" stroke-width="3" stroke-linecap="round" fill="none"/>
-            </g>
+        <div class="logo-mark" aria-hidden="true">
+          <svg width="44" height="44" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <rect width="100" height="100" rx="16" fill="#020c14"/>
+            <rect x="4" y="4" width="92" height="92" rx="13" fill="none" stroke="#00f5c8" stroke-width="2" filter="url(#glow)"/>
+            <circle cx="50" cy="50" r="30" fill="none" stroke="#00f5c8" stroke-width="1.5" opacity="0.4"/>
+            <polygon points="50,24 62,38 50,52 38,38" fill="none" stroke="#00f5c8" stroke-width="2" filter="url(#glow)"/>
+            <circle cx="50" cy="52" r="8" fill="#00f5c8" filter="url(#glow)"/>
+            <line x1="50" y1="60" x2="50" y2="76" stroke="#00f5c8" stroke-width="2"/>
+            <line x1="38" y1="70" x2="62" y2="70" stroke="#00f5c8" stroke-width="2"/>
           </svg>
         </div>
         <div class="title-block">
-          <h1>Chibi</h1>
-          <p class="subtitle">Clean, categorized links — minimal UI, safe browsing first.</p>
+          <h1>CHIBI</h1>
+          <p class="subtitle">Safe browsing · clean links · no popups</p>
         </div>
       </div>
 
       <div class="top-controls">
-        <div class="tip-and-donate">
-          <div class="instruction">
-            <strong>Before clicking any link</strong> — Download
-            <a class="tip-img" href="https://brave.com/download" target="_blank" rel="noopener noreferrer" title="Download Brave">
-              <img src="https://raw.githubusercontent.com/N3rdmade/TBCPL/main/assets/brave.png" alt="Brave" onerror="this.style.display='none'">
-            </a>
-            or use
-            <a class="tip-img" href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" title="uBlock Origin">
-              <img src="https://raw.githubusercontent.com/N3rdmade/TBCPL/main/assets/ublock.png" alt="uBlock" onerror="this.style.display='none'">
-            </a>
-            to avoid unwanted popups and ads!
-          </div>
+        <div class="safety-bar">
+          <span class="safety-label">SAFE BROWSING PROTOCOL:</span>
+          Use
+          <a class="tip-link" href="https://brave.com/download" target="_blank" rel="noopener noreferrer" title="Download Brave Browser">
+            <img class="tip-logo" src="https://raw.githubusercontent.com/N3rdmade/TBCPL/main/assets/brave.png" alt="Brave" onerror="this.style.display='none'">
+            <span>Brave</span>
+          </a>
+          or install
+          <a class="tip-link" href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" title="uBlock Origin">
+            <img class="tip-logo" src="https://raw.githubusercontent.com/N3rdmade/TBCPL/main/assets/ublock.png" alt="uBlock Origin" onerror="this.style.display='none'">
+            <span>uBlock Origin</span>
+          </a>
+          before clicking any link.
+        </div>
 
-          <div class="donation-line">
-            <strong>Please consider donating!</strong>
-            <a class="don-icon" id="cashappBtn" href="https://cash.app/your-cashtag" target="_blank" rel="noopener noreferrer" title="CashApp">
-              <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="4" fill="#00d1a1"/><text x="12" y="16" text-anchor="middle" font-family="Arial" font-size="12" fill="#071017">$</text></svg>
+        <div class="header-actions">
+          <div class="donate-row">
+            <span class="safety-label">SUPPORT:</span>
+            <a class="don-btn" href="https://cash.app/your-cashtag" target="_blank" rel="noopener noreferrer" title="CashApp">
+              <svg width="14" height="14" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#00f5c8"/><text x="12" y="16" text-anchor="middle" font-family="monospace" font-size="13" fill="#020c14">$</text></svg>
+              CashApp
             </a>
-            <button class="don-icon" id="btcBtn" title="Show BTC QR">
-              <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#f2a900"/><text x="12" y="15" text-anchor="middle" font-family="Arial" font-size="12" fill="#fff">₿</text></svg>
+            <button class="don-btn" id="btcBtn" title="Bitcoin QR">
+              <svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#f2a900"/><text x="12" y="16" text-anchor="middle" font-family="monospace" font-size="12" fill="#fff">₿</text></svg>
+              Bitcoin
             </button>
           </div>
-        </div>
 
-        <div class="controls">
-          <input id="search" type="search" placeholder="Search links or categories" aria-label="Search links">
-          <button id="manageBtn" class="small">Manage</button>
+          <div class="search-row">
+            <div class="search-wrap">
+              <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input id="search" type="search" placeholder="Search links..." aria-label="Search links">
+            </div>
+            <button id="manageBtn" class="ctrl-btn">⚙ MANAGE</button>
+          </div>
         </div>
       </div>
+
     </div>
   </header>
 
   <main class="wrap">
-    <section id="managePanel" class="manage-panel hidden" aria-hidden="true">
+
+    <!-- Manage Panel -->
+    <section id="managePanel" class="manage-panel" aria-hidden="true">
       <div class="manage-inner">
         <div class="manage-col">
-          <h3>Category Order</h3>
+          <h3>// CATEGORY ORDER</h3>
           <div id="categoryList"></div>
-          <p class="muted">Use the arrows to reorder categories. Changes persist for you only.</p>
+          <p class="muted">Reorder categories. Stored in your browser only.</p>
         </div>
-
         <div class="manage-col">
-          <h3>Hidden Links</h3>
+          <h3>// HIDDEN LINKS</h3>
           <div id="hiddenList" class="hidden-list"></div>
           <p class="muted">Restore hidden links here.</p>
         </div>
-
         <div class="manage-actions">
-          <button id="closeManage" class="small">Close</button>
-          <button id="resetPrefs" class="small danger">Reset prefs</button>
+          <button id="closeManage" class="ctrl-btn">✕ CLOSE</button>
+          <button id="resetPrefs" class="ctrl-btn danger">⟳ RESET PREFS</button>
         </div>
       </div>
     </section>
@@ -92,17 +112,17 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <small>Manage links in <code>script.js</code>. Upload logos to <code>assets/logo/</code> or use remote logo URLs.</small>
+      <small>Edit <code>script.js</code> to add or remove links · logos from the N3rdmade/TBCPL repo</small>
     </div>
   </footer>
 
   <!-- BTC QR Modal -->
-  <div id="qrModal" class="modal hidden" role="dialog" aria-hidden="true">
+  <div id="qrModal" class="modal" role="dialog" aria-hidden="true">
     <div class="modal-inner">
-      <button id="closeQr" class="btn">Close</button>
-      <h3>Donate Bitcoin</h3>
-      <div id="qrImage" style="text-align:center;margin:12px 0"></div>
-      <div id="btcAddr" style="text-align:center;color:#9aa4b2;font-size:13px;margin-top:6px"></div>
+      <h3>// DONATE BITCOIN</h3>
+      <div id="qrImage"></div>
+      <div id="btcAddr"></div>
+      <button id="closeQr" class="ctrl-btn" style="margin-top:14px">✕ CLOSE</button>
     </div>
   </div>
 

@@ -1,5 +1,7 @@
-/* Auto-generated from provided category data.
-   Sites with enabled: true are included. Logos referencing './' expect local files under assets/logo/... */
+/* ==============================================
+   CHIBI — script.js
+   Link data + UI logic (no popup injections)
+============================================== */
 
 const CATEGORIES = [
   {
@@ -26,7 +28,6 @@ const CATEGORIES = [
       {"name":"Nepu","url":"https://nepu.to/","logo":"./logo/movies_shows/nepu.png","enabled":true},
       {"name":"FMovies","url":"https://fmovies-hd.to/home/","logo":"./logo/movies_shows/fmovies.png","enabled":true},
       {"name":"Wooflix","url":"https://nunflix.li/","logo":"./logo/movies_shows/wooflix.png","enabled":true},
-      {"name":"Vexo","url":"https://vexo.to/","logo":"./logo/movies_shows/vexo.png","enabled":false,"reason":"they left"},
       {"name":"Xprime","url":"https://xprime.stream/","logo":"./logo/movies_shows/xprime.png","enabled":true},
       {"name":"Hexa","url":"https://hexa.su/","logo":"./logo/movies_shows/hexa.png","enabled":true},
       {"name":"SmashyStream","url":"https://smashystream.xyz/","logo":"./logo/movies_shows/smashystream.png","enabled":true},
@@ -38,7 +39,6 @@ const CATEGORIES = [
     "name": "Anime",
     "sites": [
       {"name":"Miruro","url":"https://www.miruro.to","logo":"./logo/anime/miruro.png","enabled":true},
-      {"name":"TAnime","url":"https://tanime.tv/home","logo":"./logo/anime/tanime.png","enabled":false,"reason":"site not working"},
       {"name":"HiAnime","url":"https://hianime.to/home","logo":"./logo/anime/hianime.png","enabled":true},
       {"name":"Enma","url":"https://www.enma.lol","logo":"./logo/anime/enma.png","enabled":true},
       {"name":"animepahe","url":"https://animepahe.si/","logo":"./logo/anime/animepahe.png","enabled":true},
@@ -70,7 +70,6 @@ const CATEGORIES = [
       {"name":"MangaPark","url":"https://mangapark.io/","logo":"./logo/manga/mangapark.png","enabled":true},
       {"name":"WeebCentral","url":"https://weebcentral.com/","logo":"./logo/manga/weebcentral.png","enabled":true},
       {"name":"MangaKatana","url":"https://mangakatana.com/","logo":"./logo/manga/mangakatana.png","enabled":true},
-      {"name":"Vexo Manga","url":"https://vexo.to/search?tab=manga","logo":"./logo/movies_shows/vexo.png","enabled":false,"reason":"they left"},
       {"name":"AnimeZ","url":"https://likemanga.ink/","logo":"./logo/anime/animez.png","enabled":true}
     ]
   },
@@ -129,132 +128,141 @@ const CATEGORIES = [
   }
 ];
 
-/* Build LINKS array from CATEGORIES */
+/* ── Build flat LINKS array, resolving local logo paths to TBCPL raw URLs ── */
+const TBCPL_RAW = 'https://raw.githubusercontent.com/N3rdmade/TBCPL/main/logo/';
 const LINKS = [];
+
 CATEGORIES.forEach(cat => {
   cat.sites.forEach(s => {
     if (!s.enabled) return;
-    let img = s.logo || '';
-  if (img.startsWith('./')) {
-  img = img.replace('./logo/', 'https://raw.githubusercontent.com/N3rdmade/TBCPL/main/logo/');
-}
+    const logo = s.logo
+      ? s.logo.replace(/^\.\/logo\//, TBCPL_RAW)
+      : '';
     LINKS.push({
-      id: (cat.id + '_' + (s.name || '').replace(/\s+/g,'_').toLowerCase()),
+      id: cat.id + '_' + (s.name || '').replace(/\s+/g, '_').toLowerCase(),
       title: s.name,
       url: s.url,
       category: cat.id,
-      image: img
+      image: logo
     });
   });
 });
 
-/* default category order & labels */
-const DEFAULT_CATEGORY_ORDER = [
-  { key: "movies", label: "Movies / Shows" },
-  { key: "anime", label: "Anime" },
-  { key: "livetv", label: "Live TV" },
-  { key: "manga", label: "Manga" },
-  { key: "paid", label: "Paid Services" },
-  { key: "apps", label: "Apps" }
-];
+/* ── Constants ── */
+const DEFAULT_CATEGORY_ORDER = CATEGORIES.map(c => c.id);
+const LS_HIDDEN    = 'chibi_hidden_v4';
+const LS_CAT_ORDER = 'chibi_cat_order_v4';
+const FALLBACK_IMG = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="130" height="80"%3E%3Crect width="130" height="80" fill="%23040f1a"/%3E%3Ctext x="65" y="45" text-anchor="middle" font-family="monospace" font-size="11" fill="%233a6b80"%3E[no image]%3C/text%3E%3C/svg%3E';
 
-/* localStorage keys */
-const LS_HIDDEN = "chibi_hidden_links_v3";
-const LS_CAT_ORDER = "chibi_cat_order_v3";
+/* ── DOM refs ── */
+const $  = id => document.getElementById(id);
+const content      = $('content');
+const searchEl     = $('search');
+const manageBtn    = $('manageBtn');
+const managePanel  = $('managePanel');
+const closeManageBtn = $('closeManage');
+const hiddenListEl = $('hiddenList');
+const categoryListEl = $('categoryList');
+const resetPrefsBtn  = $('resetPrefs');
+const qrModal      = $('qrModal');
+const qrImage      = $('qrImage');
+const btcAddr      = $('btcAddr');
 
-/* fallback image */
-const DEFAULT_IMAGE = "https://placekitten.com/640/400";
+/* ── State ── */
+let hiddenLinks  = JSON.parse(localStorage.getItem(LS_HIDDEN)    || '[]');
+let storedOrder  = JSON.parse(localStorage.getItem(LS_CAT_ORDER) || 'null');
 
-/* DOM */
-const content = document.getElementById("content");
-const searchEl = document.getElementById("search");
-const manageBtn = document.getElementById("manageBtn");
-const managePanel = document.getElementById("managePanel");
-const closeManageBtn = document.getElementById("closeManage");
-const hiddenList = document.getElementById("hiddenList");
-const categoryList = document.getElementById("categoryList");
-const resetPrefs = document.getElementById("resetPrefs");
+/* ── Helpers ── */
+function esc(s) {
+  return String(s||'').replace(/[&<>"']/g, m =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])
+  );
+}
 
-/* state */
-let hiddenLinks = JSON.parse(localStorage.getItem(LS_HIDDEN) || "[]");
-let storedCatOrder = JSON.parse(localStorage.getItem(LS_CAT_ORDER) || "null");
-
-function getCategoryOrder() {
-  const allCats = Array.from(new Set(LINKS.map(l => l.category)));
-  const defaultKeys = DEFAULT_CATEGORY_ORDER.map(d => d.key);
-  let order = (storedCatOrder && Array.isArray(storedCatOrder)) ? storedCatOrder : defaultKeys.slice();
-  allCats.forEach(c => { if (!order.includes(c)) order.push(c); });
-  order = order.filter(c => allCats.includes(c));
-  return order;
+function getCatOrder() {
+  let order = (storedOrder && Array.isArray(storedOrder))
+    ? storedOrder.slice()
+    : DEFAULT_CATEGORY_ORDER.slice();
+  const all = [...new Set(LINKS.map(l => l.category))];
+  all.forEach(c => { if (!order.includes(c)) order.push(c); });
+  return order.filter(c => all.includes(c));
 }
 
 function labelFor(key) {
   const cat = CATEGORIES.find(c => c.id === key);
-  if (cat && cat.name) return cat.name;
-
-  const fallback = DEFAULT_CATEGORY_ORDER.find(d => d.key === key);
-  return fallback ? fallback.label : key.charAt(0).toUpperCase() + key.slice(1);
+  return cat ? cat.name : key.charAt(0).toUpperCase() + key.slice(1);
 }
 
-function renderAll(query = "") {
+/* ── Render ── */
+function renderAll(query = '') {
   const q = query.trim().toLowerCase();
-  content.innerHTML = "";
-  const order = getCategoryOrder();
-  if (order.length === 0) { content.innerHTML = `<p class="muted">No links configured.</p>`; return; }
+  content.innerHTML = '';
 
-  order.forEach(catKey => {
-    const section = document.createElement("section");
-    section.className = "section";
-    const heading = document.createElement("h2");
-    heading.textContent = labelFor(catKey);
-    section.appendChild(heading);
-    const grid = document.createElement("div");
-    grid.className = "grid";
-
+  getCatOrder().forEach(catKey => {
     const items = LINKS
       .filter(l => l.category === catKey && !hiddenLinks.includes(l.id))
-      .filter(l => !q || l.title.toLowerCase().includes(q) || l.category.toLowerCase().includes(q));
+      .filter(l => !q ||
+        l.title.toLowerCase().includes(q) ||
+        labelFor(l.category).toLowerCase().includes(q)
+      );
 
-    if (items.length === 0) {
-      const p = document.createElement("p");
-      p.className = "muted";
-      p.textContent = "No visible links in this category.";
-      section.appendChild(p);
-      content.appendChild(section);
-      return;
-    }
+    if (items.length === 0) return; // hide empty categories during search
+
+    const section = document.createElement('section');
+    section.className = 'section';
+
+    // Section header with line + count
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    const h2 = document.createElement('h2');
+    h2.textContent = labelFor(catKey);
+    const line = document.createElement('div');
+    line.className = 'section-line';
+    const count = document.createElement('span');
+    count.className = 'section-count';
+    count.textContent = items.length + ' LINKS';
+    header.appendChild(h2);
+    header.appendChild(line);
+    header.appendChild(count);
+    section.appendChild(header);
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
 
     items.forEach(item => {
-      const card = document.createElement("article");
-      card.className = "card";
+      const card = document.createElement('article');
+      card.className = 'card';
 
-      const a = document.createElement("a");
+      // Link wrapping thumbnail
+      const a = document.createElement('a');
       a.href = item.url;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      a.setAttribute("aria-label", item.title);
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.setAttribute('aria-label', item.title);
 
-      const img = document.createElement("img");
-      img.className = "thumb";
+      const img = document.createElement('img');
+      img.className = 'thumb';
       img.alt = item.title;
-      img.src = item.image || DEFAULT_IMAGE;
-      img.onerror = function() { this.onerror = null; this.src = DEFAULT_IMAGE; };
+      img.src = item.image || FALLBACK_IMG;
+      img.loading = 'lazy';
+      img.onerror = function () { this.onerror = null; this.src = FALLBACK_IMG; };
 
-      const overlay = document.createElement("div");
-      overlay.className = "overlay";
-      overlay.innerHTML = '<div class="label">' + escapeHtml(item.title) + '</div>';
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+      overlay.innerHTML = '<div class="label">' + esc(item.title) + '</div>';
 
       a.appendChild(img);
+      a.appendChild(overlay);
       card.appendChild(a);
-      card.appendChild(overlay);
 
-      const actions = document.createElement("div");
-      actions.className = "actions";
-      const hideBtn = document.createElement("button");
-      hideBtn.className = "btn";
-      hideBtn.textContent = "Hide";
-      hideBtn.title = "Hide this link (you can restore later)";
-      hideBtn.onclick = (e) => { e.preventDefault(); hideLink(item.id); };
+      // Hide button
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const hideBtn = document.createElement('button');
+      hideBtn.className = 'hide-btn';
+      hideBtn.textContent = '— hide';
+      hideBtn.title = 'Hide this link (restore anytime in Manage)';
+      hideBtn.addEventListener('click', e => { e.preventDefault(); hideLink(item.id); });
       actions.appendChild(hideBtn);
       card.appendChild(actions);
 
@@ -264,116 +272,154 @@ function renderAll(query = "") {
     section.appendChild(grid);
     content.appendChild(section);
   });
+
+  if (content.innerHTML === '') {
+    content.innerHTML = '<p class="muted" style="text-align:center;margin-top:40px">No links match that search.</p>';
+  }
 }
 
-function escapeHtml(s = "") { return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); }); }
+/* ── Hide / Restore ── */
+function hideLink(id) {
+  if (!hiddenLinks.includes(id)) hiddenLinks.push(id);
+  localStorage.setItem(LS_HIDDEN, JSON.stringify(hiddenLinks));
+  renderAll(searchEl.value);
+  renderHiddenList();
+}
 
-function hideLink(id) { if (!hiddenLinks.includes(id)) hiddenLinks.push(id); localStorage.setItem(LS_HIDDEN, JSON.stringify(hiddenLinks)); renderAll(searchEl.value); renderHiddenList(); }
-function restoreLink(id) { hiddenLinks = hiddenLinks.filter(x => x !== id); localStorage.setItem(LS_HIDDEN, JSON.stringify(hiddenLinks)); renderAll(searchEl.value); renderHiddenList(); }
+function restoreLink(id) {
+  hiddenLinks = hiddenLinks.filter(x => x !== id);
+  localStorage.setItem(LS_HIDDEN, JSON.stringify(hiddenLinks));
+  renderAll(searchEl.value);
+  renderHiddenList();
+}
 
-function renderHiddenList(){
-  hiddenList.innerHTML = "";
-  if (hiddenLinks.length === 0) { hiddenList.innerHTML = `<div class="muted">No hidden links.</div>`; return; }
+/* ── Manage panel renderers ── */
+function renderHiddenList() {
+  hiddenListEl.innerHTML = '';
+  if (hiddenLinks.length === 0) {
+    hiddenListEl.innerHTML = '<div class="muted">No hidden links.</div>';
+    return;
+  }
   hiddenLinks.forEach(id => {
     const item = LINKS.find(l => l.id === id);
     if (!item) return;
-    const row = document.createElement("div");
-    row.className = "cat-row";
-    row.innerHTML = `<div style="flex:1">${escapeHtml(item.title)}<div class="muted" style="font-size:11px">${labelFor(item.category)}</div></div>`;
-    const btn = document.createElement("button");
-    btn.className = "btn";
-    btn.textContent = "Restore";
-    btn.onclick = () => restoreLink(id);
+    const row = document.createElement('div');
+    row.className = 'cat-row';
+    row.innerHTML = `<div style="flex:1">${esc(item.title)}<div class="muted">${esc(labelFor(item.category))}</div></div>`;
+    const btn = document.createElement('button');
+    btn.className = 'ctrl-btn';
+    btn.textContent = 'Restore';
+    btn.addEventListener('click', () => restoreLink(id));
     row.appendChild(btn);
-    hiddenList.appendChild(row);
+    hiddenListEl.appendChild(row);
   });
 }
 
-function renderCategoryList(){
-  categoryList.innerHTML = "";
-  const order = getCategoryOrder();
+function renderCategoryList() {
+  categoryListEl.innerHTML = '';
+  const order = getCatOrder();
   order.forEach((key, idx) => {
-    const row = document.createElement("div");
-    row.className = "cat-row";
-    const label = document.createElement("div");
+    const row = document.createElement('div');
+    row.className = 'cat-row';
+    const label = document.createElement('div');
     label.textContent = labelFor(key);
     row.appendChild(label);
 
-    const controls = document.createElement("div");
-    controls.style.display = "flex"; controls.style.gap = "6px";
+    const ctrl = document.createElement('div');
+    ctrl.style.cssText = 'display:flex;gap:5px';
 
-    const up = document.createElement("button"); up.className = "btn"; up.textContent = "↑";
-    up.disabled = idx === 0; up.onclick = () => { moveCategory(key, -1); };
-    const down = document.createElement("button"); down.className = "btn"; down.textContent = "↓";
-    down.disabled = idx === order.length - 1; down.onclick = () => { moveCategory(key, 1); };
+    const up = document.createElement('button');
+    up.className = 'ctrl-btn';
+    up.textContent = '↑';
+    up.disabled = idx === 0;
+    up.addEventListener('click', () => moveCategory(key, -1));
 
-    controls.appendChild(up); controls.appendChild(down);
-    row.appendChild(controls);
-    categoryList.appendChild(row);
+    const dn = document.createElement('button');
+    dn.className = 'ctrl-btn';
+    dn.textContent = '↓';
+    dn.disabled = idx === order.length - 1;
+    dn.addEventListener('click', () => moveCategory(key, 1));
+
+    ctrl.appendChild(up);
+    ctrl.appendChild(dn);
+    row.appendChild(ctrl);
+    categoryListEl.appendChild(row);
   });
 }
+
 function moveCategory(key, delta) {
-  let order = getCategoryOrder();
+  let order = getCatOrder();
   const idx = order.indexOf(key);
-  if (idx === -1) return;
-  const newIdx = idx + delta;
-  if (newIdx < 0 || newIdx >= order.length) return;
+  if (idx < 0) return;
+  const ni = idx + delta;
+  if (ni < 0 || ni >= order.length) return;
   order.splice(idx, 1);
-  order.splice(newIdx, 0, key);
-  storedCatOrder = order;
-  localStorage.setItem(LS_CAT_ORDER, JSON.stringify(storedCatOrder));
+  order.splice(ni, 0, key);
+  storedOrder = order;
+  localStorage.setItem(LS_CAT_ORDER, JSON.stringify(storedOrder));
   renderCategoryList();
   renderAll(searchEl.value);
 }
 
-function resetPreferences(){
-  if (!confirm("Reset your hidden links and category order? This only affects your browser.")) return;
+/* ── Manage panel open/close ── */
+function openManage() {
+  renderHiddenList();
+  renderCategoryList();
+  managePanel.classList.add('open');
+  managePanel.setAttribute('aria-hidden', 'false');
+  manageBtn.textContent = '⚙ CLOSE';
+}
+function closeManage() {
+  managePanel.classList.remove('open');
+  managePanel.setAttribute('aria-hidden', 'true');
+  manageBtn.textContent = '⚙ MANAGE';
+}
+
+manageBtn.addEventListener('click', () => {
+  managePanel.classList.contains('open') ? closeManage() : openManage();
+});
+closeManageBtn.addEventListener('click', closeManage);
+
+resetPrefsBtn.addEventListener('click', () => {
+  if (!confirm('Reset hidden links and category order? This only affects your browser.')) return;
   hiddenLinks = [];
-  storedCatOrder = null;
+  storedOrder = null;
   localStorage.removeItem(LS_HIDDEN);
   localStorage.removeItem(LS_CAT_ORDER);
   renderHiddenList();
   renderCategoryList();
   renderAll(searchEl.value);
-}
-
-/* manage toggles */
-manageBtn.addEventListener("click", () => {
-  managePanel.classList.toggle("hidden");
-  managePanel.setAttribute("aria-hidden", managePanel.classList.contains("hidden"));
-  renderHiddenList();
-  renderCategoryList();
 });
-if (closeManageBtn) closeManageBtn.addEventListener("click", () => {
-  managePanel.classList.add("hidden");
-  managePanel.setAttribute("aria-hidden", "true");
+
+/* ── Search ── */
+searchEl.addEventListener('input', () => renderAll(searchEl.value));
+
+/* ── BTC QR Modal ── */
+const BTC_ADDRESS = 'YOUR_BITCOIN_ADDRESS'; // ← replace with your actual BTC address
+
+$('btcBtn').addEventListener('click', () => {
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' +
+    encodeURIComponent('bitcoin:' + BTC_ADDRESS);
+  qrImage.innerHTML = '<img src="' + qrUrl + '" alt="BTC QR" style="border-radius:4px">';
+  btcAddr.textContent = BTC_ADDRESS;
+  qrModal.classList.add('open');
+  qrModal.setAttribute('aria-hidden', 'false');
 });
-resetPrefs.addEventListener("click", resetPreferences);
 
-/* search */
-searchEl.addEventListener("input", () => { renderAll(searchEl.value); });
-
-/* BTC QR modal handling */
-const qrModal = document.getElementById('qrModal');
-const qrImage = document.getElementById('qrImage');
-const btcAddr = document.getElementById('btcAddr');
-const BTC_ADDRESS = 'YOUR_BITCOIN_ADDRESS'; // <--- replace this with your actual BTC address
-
-document.getElementById('btcBtn').addEventListener('click', () => {
-  const addr = BTC_ADDRESS;
-  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=' + encodeURIComponent('bitcoin:' + addr);
-  qrImage.innerHTML = '<img src="' + qrUrl + '" alt="BTC QR">';
-  btcAddr.textContent = addr;
-  qrModal.classList.remove('hidden');
-  qrModal.setAttribute('aria-hidden','false');
-});
-document.getElementById('closeQr').addEventListener('click', () => {
-  qrModal.classList.add('hidden');
-  qrModal.setAttribute('aria-hidden','true');
+$('closeQr').addEventListener('click', () => {
+  qrModal.classList.remove('open');
+  qrModal.setAttribute('aria-hidden', 'true');
   qrImage.innerHTML = '';
 });
 
-/* initial render */
-renderHiddenList();
-renderCategoryList();
+// Close modal on backdrop click
+qrModal.addEventListener('click', e => {
+  if (e.target === qrModal) {
+    qrModal.classList.remove('open');
+    qrModal.setAttribute('aria-hidden', 'true');
+    qrImage.innerHTML = '';
+  }
+});
+
+/* ── Initial render ── */
 renderAll('');
