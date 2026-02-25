@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chibi — Link Directory</title>
+  <meta name="description" content="Fast static link directory — clickable image tiles, categories, search.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>Chibi</h1>
+      <p class="subtitle">Curated links — tap an image to open. Mobile-ready.</p>
+
+      <div class="controls">
+        <input id="search" type="search" placeholder="Search links or categories" aria-label="Search links">
+        <select id="categoryFilter" aria-label="Filter by category">
+          <option value="all">All categories</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="grid" class="link-grid" aria-live="polite"></section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <small>Manage links in <code>script.js</code>. Replace thumbnails in <code>assets/images/</code>.</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
