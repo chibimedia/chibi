@@ -13,7 +13,6 @@
   <header class="site-header">
     <div class="wrap header-row">
       <div class="brand">
-        <!-- small inline logo (no upload needed) -->
         <div class="logo" aria-hidden="true">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chibi logo">
             <rect x="0" y="0" width="24" height="24" rx="5" fill="#00d1a1"/>
@@ -28,13 +27,15 @@
 
       <div class="top-controls">
         <div class="tip">
+          <!-- Brave (inline SVG link) -->
           <a class="tip-link" href="https://brave.com/download" target="_blank" rel="noopener noreferrer" title="Download Brave">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Brave_logo.svg" alt="Brave" class="tip-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#f97316" d="M12 2l3.2 2.6 2.8.9 1.9 3.1.1 3.3L20 16l-2.5 2.9L14 20l-2 .6-2-.6-3.5-1.1L6 14.9 4 13l.5-3.8L7 7.3 10 6l2 .1z"/></svg>
             Brave
           </a>
           <span class="sep">•</span>
+          <!-- uBlock (inline SVG link) -->
           <a class="tip-link" href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" title="uBlock Origin">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Ublock_Origin_icon.svg" alt="uBlock Origin" class="tip-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#ff4b4b" d="M4 4h16v16H4z"/></svg>
             uBlock
           </a>
         </div>
@@ -48,7 +49,6 @@
   </header>
 
   <main class="wrap">
-    <!-- Manage panel (hidden by default) -->
     <section id="managePanel" class="manage-panel hidden" aria-hidden="true">
       <div class="manage-inner">
         <div class="manage-col">
@@ -70,7 +70,6 @@
       </div>
     </section>
 
-    <!-- dynamic content injected here: sections by category -->
     <div id="content"></div>
   </main>
 
