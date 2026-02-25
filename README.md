@@ -1,18 +1,20 @@
-# Chibi — Link Directory (v2)
-Updated package: chibi static link directory with chibi logo, clear instructions, donation links, and grouped categories.
+# Chibi — Link Directory (v3)
 
-## What changed
-- Prominent instruction telling users to download Brave or use uBlock before clicking links.
-- Donation line placed near the top.
-- Chibi dog SVG used as logo (vector, inline).
-- Hover overlay title and denser layout.
-- Remote placeholder images used to avoid 404s if you haven't uploaded thumbnails.
+This package integrates the provided categorized site list and makes the UI tidy and ready to drop into your GitHub Pages repo.
+
+## What's included
+- `index.html`, `styles.css`, `script.js`
+- `README.md`, `sitemap.xml`, `robots.txt`
+- `script.js` auto-builds the link grid from the embedded category list (from Claude). Upload logos to `assets/logo/...` following the paths in the data.
 
 ## Deploy
-Upload files to repo root and enable Pages (branch main, / root).
+1. Upload files to repo root and commit.
+2. Upload logos to `assets/logo/` if you want site-specific thumbnails (paths in the dataset use e.g. `assets/logo/movies_shows/1shows.png`).
+3. Enable GitHub Pages (Settings → Pages → Branch: main, folder: /root).
+4. Hard refresh the page.
 
-## Analytics
-This package uses a privacy-first local visit counter (stored in each visitor's browser). To collect cross-user site-wide analytics for free, use Cloudflare (free plan) after you register a domain and route it through Cloudflare — their dashboard shows requests and basic analytics without extra cost.
-
-## Edit links
-Open `script.js` and edit `LINKS` array. Each entry needs: id, title, url, category, image.
+## Free analytics via Cloudflare
+1. Register your domain and add it to Cloudflare (free).
+2. Update your domain registrar to use Cloudflare's nameservers.
+3. Cloudflare dashboard → Analytics will show request counts and basic traffic metrics for free.
+Cloudflare is a reliable free option for cross-visitor analytics once you have a domain.
