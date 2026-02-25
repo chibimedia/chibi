@@ -189,8 +189,11 @@ function getCategoryOrder() {
 }
 
 function labelFor(key) {
-  const match = DEFAULT_CATEGORY_ORDER.find(d => d.key === key);
-  return match ? match.label : key.charAt(0).toUpperCase() + key.slice(1);
+  const cat = CATEGORIES.find(c => c.id === key);
+  if (cat && cat.name) return cat.name;
+
+  const fallback = DEFAULT_CATEGORY_ORDER.find(d => d.key === key);
+  return fallback ? fallback.label : key.charAt(0).toUpperCase() + key.slice(1);
 }
 
 function renderAll(query = "") {
