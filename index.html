@@ -4,40 +4,57 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Chibi — Link Directory</title>
-  <meta name="description" content="Chibi — fast static link directory (clickable image tiles, categories, search)." />
+  <meta name="description" content="Chibi — organized, fast link directory. Click thumbnails to open." />
   <link rel="stylesheet" href="styles.css" />
-  <!-- favicon (inline SVG data URI) -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2300d1a1'/%3E%3Ctext x='50' y='58' font-family='Arial,sans-serif' font-size='58' text-anchor='middle' fill='%230b0b0d'%3EC%3C/text%3E%3C/svg%3E" />
+  <!-- favicon (simple SVG) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2300d1a1'/%3E%3C/svg%3E" />
 </head>
 <body>
   <header class="site-header">
     <div class="wrap header-row">
       <div class="brand">
         <div class="logo" aria-hidden="true">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chibi logo">
-            <rect x="0" y="0" width="24" height="24" rx="5" fill="#00d1a1"/>
-            <path d="M6 8h12v2H6zM6 12h12v2H6z" fill="#071017"/>
+          <!-- simple original chibi-dog SVG logo (vector, transparent) -->
+          <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chibi dog logo">
+            <g fill="none" fill-rule="evenodd">
+              <circle cx="50" cy="50" r="46" fill="#00d1a1"/>
+              <ellipse cx="50" cy="58" rx="28" ry="20" fill="#fff"/>
+              <path d="M30 40 C30 26, 44 26, 45 40" fill="#fff"/>
+              <path d="M70 40 C70 26, 56 26, 55 40" fill="#fff"/>
+              <circle cx="40" cy="54" r="4" fill="#071017"/>
+              <circle cx="60" cy="54" r="4" fill="#071017"/>
+              <path d="M44 68 C48 74, 52 74, 56 68" stroke="#071017" stroke-width="3" stroke-linecap="round" fill="none"/>
+            </g>
           </svg>
         </div>
         <div class="title-block">
           <h1>Chibi</h1>
-          <p class="subtitle">Curated links — tap an image to open. Mobile-first, fast.</p>
+          <p class="subtitle">Organized, fast links — click thumbnails to open. We prioritize a clean, safe browsing experience.</p>
         </div>
       </div>
 
       <div class="top-controls">
-        <div class="tip">
-          <!-- Brave (inline SVG link) -->
-          <a class="tip-link" href="https://brave.com/download" target="_blank" rel="noopener noreferrer" title="Download Brave">
-            <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#f97316" d="M12 2l3.2 2.6 2.8.9 1.9 3.1.1 3.3L20 16l-2.5 2.9L14 20l-2 .6-2-.6-3.5-1.1L6 14.9 4 13l.5-3.8L7 7.3 10 6l2 .1z"/></svg>
-            Brave
-          </a>
-          <span class="sep">•</span>
-          <!-- uBlock (inline SVG link) -->
-          <a class="tip-link" href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" title="uBlock Origin">
-            <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#ff4b4b" d="M4 4h16v16H4z"/></svg>
-            uBlock
-          </a>
+        <div class="tip-and-donate">
+          <div class="instruction">
+            <strong>Before clicking any link:</strong>
+            <span>Download</span>
+            <!-- Brave inline SVG link -->
+            <a class="tip-link-inline" href="https://brave.com/download" target="_blank" rel="noopener noreferrer" title="Download Brave">
+              <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#f97316" d="M12 2l3.2 2.6 2.8.9 1.9 3.1.1 3.3L20 16l-2.5 2.9L14 20l-2 .6-2-.6-3.5-1.1L6 14.9 4 13l.5-3.8L7 7.3 10 6l2 .1z"/></svg>
+            </a>
+            <span>or use</span>
+            <!-- uBlock inline SVG link -->
+            <a class="tip-link-inline" href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" title="uBlock Origin">
+              <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#ff4b4b" d="M4 4h16v16H4z"/></svg>
+            </a>
+            <span>to avoid unwanted popups and ads!</span>
+          </div>
+
+          <div class="donation-line">
+            <strong>Please consider donating!</strong>
+            <a class="don-link" href="https://cash.app/your-cashtag" target="_blank" rel="noopener noreferrer">$YourCashTag</a>
+            <a class="don-link" href="bitcoin:YOUR_BITCOIN_ADDRESS" target="_blank" rel="noopener noreferrer">BTC</a>
+          </div>
         </div>
 
         <div class="controls">
@@ -80,23 +97,5 @@
   </footer>
 
   <script src="script.js"></script>
-
-  <!-- Analytics stub (privacy first):
-       - If you want real analytics, use Plausible or Fathom: see README for instructions.
-       - This site ships a local client-side counter that stores counts in the browser only
-         (privacy-preserving, no external calls). It helps you test behavior. -->
-  <script>
-    (function(){
-      try {
-        const key = "chibi_local_visits_v1";
-        const n = Number(localStorage.getItem(key) || "0") + 1;
-        localStorage.setItem(key, String(n));
-        // Expose for debugging: window._chibiVisits
-        window._chibiVisits = n;
-        console.log("Chibi local visit count:", n);
-      } catch(e) { /* ignore */ }
-    })();
-  </script>
 </body>
 </html>
-

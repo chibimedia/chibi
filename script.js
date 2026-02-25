@@ -1,8 +1,7 @@
 /* ========== EDIT LINKS HERE ==========
-Each entry must have a unique id (string), title, url, category, image path.
-Image can be a local path like "assets/images/aaa.png" or a remote URL.
-This package uses remote placeholder images by default to avoid 404s.
-If image fails to load, a default placeholder is used automatically.
+Each entry: id (unique), title, url, category, image.
+Put your thumbnails in assets/images/ and reference like "assets/images/name.png".
+If image missing, fallback uses remote placeholder (picsum) to avoid 404s.
 ======================================= */
 
 const LINKS = [
@@ -20,7 +19,7 @@ const LINKS = [
   { id: "p1", title: "Paid App 1", url: "https://paid.example/1", category: "paidapps", image: "https://picsum.photos/seed/p1/640/400" }
 ];
 
-/* Desired default category order and display labels */
+/* default category order & labels */
 const DEFAULT_CATEGORY_ORDER = [
   { key: "movies", label: "Movies / Shows" },
   { key: "anime", label: "Anime" },
@@ -30,10 +29,10 @@ const DEFAULT_CATEGORY_ORDER = [
 ];
 
 /* localStorage keys */
-const LS_HIDDEN = "chibi_hidden_links_v1";
-const LS_CAT_ORDER = "chibi_cat_order_v1";
+const LS_HIDDEN = "chibi_hidden_links_v2";
+const LS_CAT_ORDER = "chibi_cat_order_v2";
 
-/* default fallback image (remote) — used if remote image fails */
+/* fallback image */
 const DEFAULT_IMAGE = "https://placekitten.com/640/400";
 
 /* DOM */
@@ -41,42 +40,36 @@ const content = document.getElementById("content");
 const searchEl = document.getElementById("search");
 const manageBtn = document.getElementById("manageBtn");
 const managePanel = document.getElementById("managePanel");
-const closeManage = document.getElementById("closeManage");
+const closeManageBtn = document.getElementById("closeManage");
 const hiddenList = document.getElementById("hiddenList");
 const categoryList = document.getElementById("categoryList");
 const resetPrefs = document.getElementById("resetPrefs");
 
-/* state from localStorage */
+/* state */
 let hiddenLinks = JSON.parse(localStorage.getItem(LS_HIDDEN) || "[]");
 let storedCatOrder = JSON.parse(localStorage.getItem(LS_CAT_ORDER) || "null");
 
-/* compute category order (merge stored order with defaults and extras) */
+/* compute category order */
 function getCategoryOrder() {
   const allCats = Array.from(new Set(LINKS.map(l => l.category)));
   const defaultKeys = DEFAULT_CATEGORY_ORDER.map(d => d.key);
   let order = storedCatOrder && Array.isArray(storedCatOrder) ? storedCatOrder : defaultKeys.slice();
-
-  allCats.forEach(c => {
-    if (!order.includes(c)) order.push(c);
-  });
-
+  allCats.forEach(c => { if (!order.includes(c)) order.push(c); });
   order = order.filter(c => allCats.includes(c));
   return order;
 }
 
-/* friendly label for a key */
 function labelFor(key) {
   const match = DEFAULT_CATEGORY_ORDER.find(d => d.key === key);
   return match ? match.label : key.charAt(0).toUpperCase() + key.slice(1);
 }
 
-/* render everything (sections per category) */
+/* render sections */
 function renderAll(query = "") {
   const q = query.trim().toLowerCase();
   content.innerHTML = "";
 
   const order = getCategoryOrder();
-
   if (order.length === 0) {
     content.innerHTML = `<p class="muted">No links configured. Edit script.js to add links.</p>`;
     return;
@@ -95,10 +88,7 @@ function renderAll(query = "") {
 
     const items = LINKS
       .filter(l => l.category === catKey && !hiddenLinks.includes(l.id))
-      .filter(l => {
-        if (!q) return true;
-        return l.title.toLowerCase().includes(q) || l.category.toLowerCase().includes(q);
-      });
+      .filter(l => { if (!q) return true; return l.title.toLowerCase().includes(q) || l.category.toLowerCase().includes(q); });
 
     if (items.length === 0) {
       const p = document.createElement("p");
@@ -117,6 +107,7 @@ function renderAll(query = "") {
       a.href = item.url;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
+      a.setAttribute("aria-label", item.title);
 
       const img = document.createElement("img");
       img.className = "thumb";
@@ -124,18 +115,13 @@ function renderAll(query = "") {
       img.src = item.image || DEFAULT_IMAGE;
       img.onerror = function() { this.onerror = null; this.src = DEFAULT_IMAGE; };
 
-      a.appendChild(img);
+      const overlay = document.createElement("div");
+      overlay.className = "overlay";
+      overlay.innerHTML = `<div class="label">${escapeHtml(item.title)}</div>`;
 
-      const meta = document.createElement("div");
-      meta.className = "meta";
-      const t = document.createElement("div");
-      t.className = "title";
-      t.textContent = item.title;
-      const c = document.createElement("div");
-      c.className = "cat";
-      c.textContent = labelFor(item.category);
-      meta.appendChild(t);
-      meta.appendChild(c);
+      a.appendChild(img);
+      card.appendChild(a);
+      card.appendChild(overlay);
 
       const actions = document.createElement("div");
       actions.className = "actions";
@@ -143,14 +129,8 @@ function renderAll(query = "") {
       hideBtn.className = "btn";
       hideBtn.textContent = "Hide";
       hideBtn.title = "Hide this link (you can restore later)";
-      hideBtn.onclick = (e) => {
-        e.preventDefault();
-        hideLink(item.id);
-      };
+      hideBtn.onclick = (e) => { e.preventDefault(); hideLink(item.id); };
       actions.appendChild(hideBtn);
-
-      card.appendChild(a);
-      card.appendChild(meta);
       card.appendChild(actions);
 
       grid.appendChild(card);
@@ -161,15 +141,18 @@ function renderAll(query = "") {
   });
 }
 
-/* hide link (persist) */
+/* helper */
+function escapeHtml(s = "") {
+  return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); });
+}
+
+/* hide / restore */
 function hideLink(id) {
   if (!hiddenLinks.includes(id)) hiddenLinks.push(id);
   localStorage.setItem(LS_HIDDEN, JSON.stringify(hiddenLinks));
   renderAll(searchEl.value);
   renderHiddenList();
 }
-
-/* restore link */
 function restoreLink(id) {
   hiddenLinks = hiddenLinks.filter(x => x !== id);
   localStorage.setItem(LS_HIDDEN, JSON.stringify(hiddenLinks));
@@ -177,7 +160,7 @@ function restoreLink(id) {
   renderHiddenList();
 }
 
-/* render hidden list in manage panel */
+/* hidden list */
 function renderHiddenList(){
   hiddenList.innerHTML = "";
   if (hiddenLinks.length === 0) {
@@ -189,7 +172,7 @@ function renderHiddenList(){
     if (!item) return;
     const row = document.createElement("div");
     row.className = "cat-row";
-    row.innerHTML = `<div style="flex:1">${item.title}<div class="muted" style="font-size:11px">${labelFor(item.category)}</div></div>`;
+    row.innerHTML = `<div style="flex:1">${escapeHtml(item.title)}<div class="muted" style="font-size:11px">${labelFor(item.category)}</div></div>`;
     const btn = document.createElement("button");
     btn.className = "btn";
     btn.textContent = "Restore";
@@ -199,7 +182,7 @@ function renderHiddenList(){
   });
 }
 
-/* render category reorder controls */
+/* category reorder controls */
 function renderCategoryList(){
   categoryList.innerHTML = "";
   const order = getCategoryOrder();
@@ -214,20 +197,15 @@ function renderCategoryList(){
     controls.style.display = "flex"; controls.style.gap = "6px";
 
     const up = document.createElement("button"); up.className = "btn"; up.textContent = "↑";
-    up.disabled = idx === 0;
-    up.onclick = () => { moveCategory(key, -1); };
-
+    up.disabled = idx === 0; up.onclick = () => { moveCategory(key, -1); };
     const down = document.createElement("button"); down.className = "btn"; down.textContent = "↓";
-    down.disabled = idx === order.length - 1;
-    down.onclick = () => { moveCategory(key, 1); };
+    down.disabled = idx === order.length - 1; down.onclick = () => { moveCategory(key, 1); };
 
     controls.appendChild(up); controls.appendChild(down);
     row.appendChild(controls);
     categoryList.appendChild(row);
   });
 }
-
-/* move category and persist */
 function moveCategory(key, delta) {
   let order = getCategoryOrder();
   const idx = order.indexOf(key);
@@ -242,7 +220,7 @@ function moveCategory(key, delta) {
   renderAll(searchEl.value);
 }
 
-/* reset prefs (hidden + order) */
+/* reset preferences */
 function resetPreferences(){
   if (!confirm("Reset your hidden links and category order? This only affects your browser.")) return;
   hiddenLinks = [];
@@ -254,23 +232,21 @@ function resetPreferences(){
   renderAll(searchEl.value);
 }
 
-/* Manage panel toggles */
+/* manage toggles */
 manageBtn.addEventListener("click", () => {
   managePanel.classList.toggle("hidden");
   managePanel.setAttribute("aria-hidden", managePanel.classList.contains("hidden"));
   renderHiddenList();
   renderCategoryList();
 });
-closeManage.addEventListener("click", () => {
+closeManageBtn.addEventListener("click", () => {
   managePanel.classList.add("hidden");
   managePanel.setAttribute("aria-hidden", "true");
 });
 resetPrefs.addEventListener("click", resetPreferences);
 
 /* search */
-searchEl.addEventListener("input", () => {
-  renderAll(searchEl.value);
-});
+searchEl.addEventListener("input", () => { renderAll(searchEl.value); });
 
 /* initial render */
 renderHiddenList();
