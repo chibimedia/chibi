@@ -6,7 +6,6 @@
   <title>Chibi — Link Directory</title>
   <meta name="description" content="Chibi — organized, fast link directory. Click thumbnails to open." />
   <link rel="stylesheet" href="styles.css" />
-  <!-- favicon (simple SVG) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2300d1a1'/%3E%3C/svg%3E" />
 </head>
 <body>
@@ -14,7 +13,7 @@
     <div class="wrap header-row">
       <div class="brand">
         <div class="logo" aria-hidden="true">
-          <!-- simple original chibi-dog SVG logo (vector, transparent) -->
+          <!-- inline chibi dog svg -->
           <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chibi dog logo">
             <g fill="none" fill-rule="evenodd">
               <circle cx="50" cy="50" r="46" fill="#00d1a1"/>
@@ -29,31 +28,32 @@
         </div>
         <div class="title-block">
           <h1>Chibi</h1>
-          <p class="subtitle">Organized, fast links — click thumbnails to open. We prioritize a clean, safe browsing experience.</p>
+          <p class="subtitle">Clean, categorized links — minimal UI, safe browsing first.</p>
         </div>
       </div>
 
       <div class="top-controls">
         <div class="tip-and-donate">
           <div class="instruction">
-            <strong>Before clicking any link:</strong>
-            <span>Download</span>
-            <!-- Brave inline SVG link -->
-            <a class="tip-link-inline" href="https://brave.com/download" target="_blank" rel="noopener noreferrer" title="Download Brave">
-              <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#f97316" d="M12 2l3.2 2.6 2.8.9 1.9 3.1.1 3.3L20 16l-2.5 2.9L14 20l-2 .6-2-.6-3.5-1.1L6 14.9 4 13l.5-3.8L7 7.3 10 6l2 .1z"/></svg>
+            <strong>Before clicking any link</strong> — Download
+            <a class="tip-img" href="https://brave.com/download" target="_blank" rel="noopener noreferrer" title="Download Brave">
+              <img src="https://raw.githubusercontent.com/N3rdmade/TBCPL/main/assets/brave.png" alt="Brave" onerror="this.style.display='none'">
             </a>
-            <span>or use</span>
-            <!-- uBlock inline SVG link -->
-            <a class="tip-link-inline" href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" title="uBlock Origin">
-              <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#ff4b4b" d="M4 4h16v16H4z"/></svg>
+            or use
+            <a class="tip-img" href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer" title="uBlock Origin">
+              <img src="https://raw.githubusercontent.com/N3rdmade/TBCPL/main/assets/ublock.png" alt="uBlock" onerror="this.style.display='none'">
             </a>
-            <span>to avoid unwanted popups and ads!</span>
+            to avoid unwanted popups and ads!
           </div>
 
           <div class="donation-line">
             <strong>Please consider donating!</strong>
-            <a class="don-link" href="https://cash.app/your-cashtag" target="_blank" rel="noopener noreferrer">$YourCashTag</a>
-            <a class="don-link" href="bitcoin:YOUR_BITCOIN_ADDRESS" target="_blank" rel="noopener noreferrer">BTC</a>
+            <a class="don-icon" id="cashappBtn" href="https://cash.app/your-cashtag" target="_blank" rel="noopener noreferrer" title="CashApp">
+              <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="4" fill="#00d1a1"/><text x="12" y="16" text-anchor="middle" font-family="Arial" font-size="12" fill="#071017">$</text></svg>
+            </a>
+            <button class="don-icon" id="btcBtn" title="Show BTC QR">
+              <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#f2a900"/><text x="12" y="15" text-anchor="middle" font-family="Arial" font-size="12" fill="#fff">₿</text></svg>
+            </button>
           </div>
         </div>
 
@@ -92,9 +92,19 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <small>Manage links in <code>script.js</code>. Replace thumbnails in <code>assets/images/</code> (or leave blank — defaults in place).</small>
+      <small>Manage links in <code>script.js</code>. Upload logos to <code>assets/logo/</code> or use remote logo URLs.</small>
     </div>
   </footer>
+
+  <!-- BTC QR Modal -->
+  <div id="qrModal" class="modal hidden" role="dialog" aria-hidden="true">
+    <div class="modal-inner">
+      <button id="closeQr" class="btn">Close</button>
+      <h3>Donate Bitcoin</h3>
+      <div id="qrImage" style="text-align:center;margin:12px 0"></div>
+      <div id="btcAddr" style="text-align:center;color:#9aa4b2;font-size:13px;margin-top:6px"></div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
