@@ -1,79 +1,96 @@
-/* === EDIT LINKS HERE === */
-const LINKS = [
-  { title: "Example A", url: "https://example.com", category: "movies", image: "assets/images/sample1.png" },
-  { title: "Example B", url: "https://example.org", category: "movies", image: "assets/images/sample2.png" },
-  { title: "Example C", url: "https://example.net", category: "anime",  image: "assets/images/sample3.png" }
-];
+:root{
+  --bg:#08080b;
+  --muted:#9aa4b2;
+  --accent:#00d1a1;
+  --card:#0f1720;
+  --gap:10px;
+  --max-w:1100px;
+  --thumb-h:96px; /* denser */
+  --radius:8px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background:var(--bg);
+  color:#e6eef6;
+  -webkit-font-smoothing:antialiased;
+  padding:12px;
+}
+.wrap{max-width:var(--max-w);margin:0 auto}
+.header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+.title-block h1{margin:0;font-size:1.1rem}
+.subtitle{margin:0;color:var(--muted);font-size:0.85rem}
+.top-controls{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
 
-/* Optional: Control category order manually */
-const CATEGORY_ORDER = ["movies","anime","tv","apps","tools","other"];
+/* top tip */
+.tip{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:0.9rem}
+.tip-link{display:flex;align-items:center;gap:6px;text-decoration:none;color:inherit}
+.tip-icon{width:18px;height:18px;display:inline-block;object-fit:contain}
 
-const grid = document.getElementById('grid');
-const searchEl = document.getElementById('search');
-const categoryFilter = document.getElementById('categoryFilter');
+/* controls */
+.controls{display:flex;gap:8px;align-items:center}
+.controls input[type="search"]{
+  padding:8px 10px;border-radius:8px;border:1px solid #121418;background:#071017;color:inherit;min-width:180px;
+}
+.small{padding:8px 10px;border-radius:8px;border:1px solid #17202a;background:#0b0b0d;color:inherit;cursor:pointer}
+.small.danger{border-color:#4b1a1a}
 
-/* Sort alphabetically */
-LINKS.sort((a,b) => a.title.localeCompare(b.title));
+/* manage panel */
+.manage-panel{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:10px;padding:12px;margin:12px 0;box-shadow:0 6px 20px rgba(0,0,0,0.5);
+}
+.manage-inner{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start}
+.manage-col{flex:1;min-width:220px}
+#categoryList, #hiddenList{margin-top:8px;display:flex;flex-direction:column;gap:8px}
+.cat-row{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:8px;background:#0b0d10;border-radius:8px}
+.muted{color:var(--muted);font-size:0.85rem}
 
-function buildCategories(){
-  let cats = Array.from(new Set(LINKS.map(l => l.category)));
+/* category section */
+.section{margin:18px 0}
+.section h2{margin:0 0 10px;font-size:1rem}
 
-  cats.sort((a,b) => {
-    const ai = CATEGORY_ORDER.indexOf(a);
-    const bi = CATEGORY_ORDER.indexOf(b);
-    if (ai === -1) return 1;
-    if (bi === -1) return -1;
-    return ai - bi;
-  });
-
-  cats.forEach(cat => {
-    const opt = document.createElement('option');
-    opt.value = cat;
-    opt.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
-    categoryFilter.appendChild(opt);
-  });
+/* grid for cards inside each section */
+.grid{
+  display:grid;
+  gap:10px;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
 }
 
-function renderList({q = '', category = 'all'} = {}){
-  const ql = q.trim().toLowerCase();
-  grid.innerHTML = '';
-
-  const filtered = LINKS.filter(item => {
-    if (category !== 'all' && item.category !== category) return false;
-    if (ql && !(item.title.toLowerCase().includes(ql) || item.category.toLowerCase().includes(ql))) return false;
-    return true;
-  });
-
-  if (!filtered.length){
-    grid.innerHTML = '<p style="color:#9aa4b2; grid-column:1/-1; text-align:center; padding:20px;">No results.</p>';
-    return;
-  }
-
-  filtered.forEach(item => {
-    const card = document.createElement('article');
-    card.className = 'card';
-
-    card.innerHTML = `
-      <a href="${item.url}" target="_blank" rel="noopener noreferrer">
-        <img class="thumb" src="${item.image}" alt="${item.title}">
-        <div class="meta">
-          <div class="title">${item.title}</div>
-          <div class="cat">${item.category}</div>
-        </div>
-      </a>
-    `;
-
-    grid.appendChild(card);
-  });
+/* card */
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:var(--radius); overflow:hidden; transition:transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+  font-size:13px;
 }
+.card a{ color:inherit; text-decoration:none; display:block; }
+.thumb{width:100%;height:var(--thumb-h);object-fit:cover;display:block;background:#0a0a0a}
+.meta{padding:8px;text-align:left}
+.title{font-weight:600;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cat{font-size:11px;color:var(--muted)}
+.card .actions{display:flex;gap:6px;align-items:center;justify-content:flex-end;padding:6px 8px 10px}
 
-searchEl.addEventListener('input', () => {
-  renderList({ q: searchEl.value, category: categoryFilter.value });
-});
+/* action buttons */
+.btn{background:#071017;border:1px solid #121418;padding:6px 8px;border-radius:6px;color:var(--muted);cursor:pointer;font-size:12px}
+.btn:hover{color:#fff}
+.card:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
 
-categoryFilter.addEventListener('change', () => {
-  renderList({ q: searchEl.value, category: categoryFilter.value });
-});
+/* footer */
+.site-footer{color:var(--muted);font-size:0.85rem;text-align:center;margin-top:8px;padding-bottom:20px}
 
-buildCategories();
-renderList({ q:'', category:'all' });
+/* utility */
+.hidden{display:none}
+
+/* responsive adjustments */
+@media (max-width:720px){
+  .header-row{flex-direction:column;align-items:stretch}
+  .top-controls{align-items:stretch}
+  .controls{justify-content:space-between}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  :root{--thumb-h:88px}
+}
