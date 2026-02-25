@@ -1,23 +1,150 @@
-/* ========== EDIT LINKS HERE ==========
-Each entry: id (unique), title, url, category, image.
-Put your thumbnails in assets/images/ and reference like "assets/images/name.png".
-If image missing, fallback uses remote placeholder (picsum) to avoid 404s.
-======================================= */
+/* Auto-generated from provided category data.
+   Sites with enabled: true are included. Logos referencing './' expect local files under assets/logo/... */
 
-const LINKS = [
-  { id: "m1", title: "Movie Link 1", url: "https://example.com/1", category: "movies", image: "https://picsum.photos/seed/m1/640/400" },
-  { id: "m2", title: "Movie Link 2", url: "https://example.com/2", category: "movies", image: "https://picsum.photos/seed/m2/640/400" },
-  { id: "m3", title: "Movie Link 3", url: "https://example.com/3", category: "movies", image: "https://picsum.photos/seed/m3/640/400" },
-
-  { id: "a1", title: "Anime Link 1", url: "https://example.org/a1", category: "anime", image: "https://picsum.photos/seed/a1/640/400" },
-  { id: "a2", title: "Anime Link 2", url: "https://example.org/a2", category: "anime", image: "https://picsum.photos/seed/a2/640/400" },
-
-  { id: "l1", title: "Live TV 1", url: "https://livetv.example/1", category: "livetv", image: "https://picsum.photos/seed/l1/640/400" },
-
-  { id: "g1", title: "Manga Link 1", url: "https://manga.example/1", category: "manga", image: "https://picsum.photos/seed/g1/640/400" },
-
-  { id: "p1", title: "Paid App 1", url: "https://paid.example/1", category: "paidapps", image: "https://picsum.photos/seed/p1/640/400" }
+const CATEGORIES = [
+  {
+    "id": "movies",
+    "name": "Movies & Shows",
+    "sites": [
+      {"name":"1Shows","url":"https://www.1shows.nl/","logo":"./logo/movies_shows/1shows.png","enabled":true},
+      {"name":"1Flex","url":"https://www.1flex.nl/","logo":"./logo/movies_shows/1flex.png","enabled":true},
+      {"name":"RgShows","url":"https://www.rgshows.ru/","logo":"./logo/movies_shows/rgshows.png","enabled":true},
+      {"name":"AlienFlix","url":"https://alienflix.net/","logo":"./logo/movies_shows/alienflix.png","enabled":true},
+      {"name":"FlickyStream","url":"https://flickystream.ru/","logo":"./logo/movies_shows/flickystream.png","enabled":true},
+      {"name":"RiveStream","url":"https://rivestream.org/","logo":"./logo/movies_shows/rivestream.png","enabled":true},
+      {"name":"CinemaBZ","url":"https://cinema.bz/","logo":"./logo/movies_shows/cinemabz.png","enabled":true},
+      {"name":"Spenflix","url":"https://watch.spencerdevs.xyz/","logo":"./logo/movies_shows/spenflix.png","enabled":true},
+      {"name":"FilmCave","url":"https://filmcave.ru/","logo":"./logo/movies_shows/filmcave.png","enabled":true},
+      {"name":"Corsflix","url":"https://watch.corsflix.net/","logo":"./logo/movies_shows/corsflix.png","enabled":true},
+      {"name":"StreamX","url":"https://streamex.net/","logo":"./logo/movies_shows/streamx.png","enabled":true},
+      {"name":"Filmex","url":"https://filmex.to/","logo":"./logo/movies_shows/filmex.png","enabled":true},
+      {"name":"Cinezo","url":"https://www.cinezo.net/","logo":"./logo/movies_shows/cinezo.png","enabled":true},
+      {"name":"Cineby","url":"https://www.cineby.gd/","logo":"./logo/movies_shows/cineby.png","enabled":true},
+      {"name":"MyFlixerz","url":"https://myflixerz.to/","logo":"./logo/movies_shows/myflixerz.png","enabled":true},
+      {"name":"SFlix","url":"https://sflix.fi/","logo":"./logo/movies_shows/sflix.png","enabled":true},
+      {"name":"Hdtodayz","url":"https://hdtodayz.to/","logo":"./logo/movies_shows/hdtodayz.png","enabled":true},
+      {"name":"Nepu","url":"https://nepu.to/","logo":"./logo/movies_shows/nepu.png","enabled":true},
+      {"name":"FMovies","url":"https://fmovies-hd.to/home/","logo":"./logo/movies_shows/fmovies.png","enabled":true},
+      {"name":"Wooflix","url":"https://nunflix.li/","logo":"./logo/movies_shows/wooflix.png","enabled":true},
+      {"name":"Vexo","url":"https://vexo.to/","logo":"./logo/movies_shows/vexo.png","enabled":false,"reason":"they left"},
+      {"name":"Xprime","url":"https://xprime.stream/","logo":"./logo/movies_shows/xprime.png","enabled":true},
+      {"name":"Hexa","url":"https://hexa.su/","logo":"./logo/movies_shows/hexa.png","enabled":true},
+      {"name":"SmashyStream","url":"https://smashystream.xyz/","logo":"./logo/movies_shows/smashystream.png","enabled":true},
+      {"name":"Flixway","url":"https://flixway.pro/","logo":"./logo/movies_shows/flixway.png","enabled":true}
+    ]
+  },
+  {
+    "id": "anime",
+    "name": "Anime",
+    "sites": [
+      {"name":"Miruro","url":"https://www.miruro.to","logo":"./logo/anime/miruro.png","enabled":true},
+      {"name":"TAnime","url":"https://tanime.tv/home","logo":"./logo/anime/tanime.png","enabled":false,"reason":"site not working"},
+      {"name":"HiAnime","url":"https://hianime.to/home","logo":"./logo/anime/hianime.png","enabled":true},
+      {"name":"Enma","url":"https://www.enma.lol","logo":"./logo/anime/enma.png","enabled":true},
+      {"name":"animepahe","url":"https://animepahe.si/","logo":"./logo/anime/animepahe.png","enabled":true},
+      {"name":"Animetsu","url":"https://animetsu.bz","logo":"./logo/anime/animetsu.png","enabled":true},
+      {"name":"Aniwatch","url":"https://aniwatchtv.to/home","logo":"./logo/anime/aniwatch.png","enabled":true},
+      {"name":"Kaido","url":"https://kaido.to/home","logo":"./logo/anime/kaido.png","enabled":true},
+      {"name":"Anicrush","url":"https://anicrush.to/home","logo":"./logo/anime/anicrush.png","enabled":true},
+      {"name":"KickAssAnime","url":"https://kaa.to/","logo":"./logo/anime/kickassanime.png","enabled":true},
+      {"name":"AnimeKai","url":"https://animekai.to/home","logo":"./logo/anime/animekai.png","enabled":true},
+      {"name":"FAnime","url":"https://fanime.tv/","logo":"./logo/anime/fanime.png","enabled":true}
+    ]
+  },
+  {
+    "id": "manga",
+    "name": "Manga",
+    "sites": [
+      {"name":"MangaBall","url":"https://mangaball.net/","logo":"./logo/manga/mangaball.png","enabled":true},
+      {"name":"Atsu","url":"https://atsu.moe/","logo":"./logo/manga/atsumaru.png","enabled":true},
+      {"name":"Kagane","url":"https://kagane.org/","logo":"./logo/manga/kagane.png","enabled":true},
+      {"name":"Comick","url":"https://comick.dev/","logo":"./logo/manga/comick.png","enabled":true},
+      {"name":"MangaDex","url":"https://mangadex.org/","logo":"./logo/manga/mangadex.png","enabled":true},
+      {"name":"Mangago","url":"https://mangago.me/","logo":"./logo/manga/mangago.png","enabled":true},
+      {"name":"MangaFire","url":"https://mangafire.to/home","logo":"./logo/manga/mangafire.png","enabled":true},
+      {"name":"AllManga","url":"https://allmanga.to/manga?cty=ALL","logo":"./logo/manga/allmanga.png","enabled":true},
+      {"name":"MangaKakalot","url":"https://www.mangakakalot.gg/","logo":"./logo/manga/mangakakalot.png","enabled":true},
+      {"name":"AsuraComic","url":"https://asuracomic.net/","logo":"./logo/manga/asuracomic.png","enabled":true},
+      {"name":"ReadComicOnline","url":"https://readcomiconline.li/","logo":"./logo/manga/readcomiconline.png","enabled":true},
+      {"name":"MangaHub","url":"https://mangahub.io/","logo":"./logo/manga/mangahub.png","enabled":true},
+      {"name":"MangaPark","url":"https://mangapark.io/","logo":"./logo/manga/mangapark.png","enabled":true},
+      {"name":"WeebCentral","url":"https://weebcentral.com/","logo":"./logo/manga/weebcentral.png","enabled":true},
+      {"name":"MangaKatana","url":"https://mangakatana.com/","logo":"./logo/manga/mangakatana.png","enabled":true},
+      {"name":"Vexo Manga","url":"https://vexo.to/search?tab=manga","logo":"./logo/movies_shows/vexo.png","enabled":false,"reason":"they left"},
+      {"name":"AnimeZ","url":"https://likemanga.ink/","logo":"./logo/anime/animez.png","enabled":true}
+    ]
+  },
+  {
+    "id": "livetv",
+    "name": "Live TV & Sports",
+    "sites": [
+      {"name":"TheTvApp","url":"https://thetvapp.to","logo":"./logo/livetv/tvappto.png","enabled":true},
+      {"name":"TV247","url":"https://tv247.us/all-channels/","logo":"./logo/livetv/tv247.png","enabled":true},
+      {"name":"TheDaddy","url":"https://dlhd.dad/","logo":"./logo/livetv/thedaddy.png","enabled":true},
+      {"name":"DaddyHD","url":"https://daddyhd.nl/","logo":"./logo/livetv/daddyhd.png","enabled":true},
+      {"name":"NTVStream","url":"https://ntvstream.cx/","logo":"./logo/livetv/ntvstream.png","enabled":true},
+      {"name":"PublicIPTV","url":"https://publiciptv.com/","logo":"./logo/livetv/publiciptv.png","enabled":true},
+      {"name":"Sport+","url":"https://en12.sportplus.live/","logo":"https://cdn.apigodata.com/sp-imgs/logo.svg","enabled":true},
+      {"name":"StreamEast","url":"https://xstreameast.com/","logo":"./logo/livetv/streameast.png","enabled":true},
+      {"name":"iStreamEast","url":"https://istreameast.app/","logo":"./logo/livetv/istreameast.png","enabled":true},
+      {"name":"SportSurge","url":"https://v2.sportsurge.net/","logo":"./logo/livetv/streamsurge.png","enabled":true},
+      {"name":"TV Garden","url":"https://tv.garden/","logo":"./logo/livetv/tvgarden.png","enabled":true},
+      {"name":"TOTV","url":"http://totv.org/tv/usa/","logo":"./logo/livetv/totv.png","enabled":true},
+      {"name":"RiveStream Sports","url":"https://rivestream.org/livesports/","logo":"./logo/movies_shows/rivestream.png","enabled":true},
+      {"name":"1Flex Live","url":"https://www.1flex.ru/live-tv","logo":"./logo/movies_shows/1flex.png","enabled":true},
+      {"name":"GlobeTV","url":"https://globetv.app/","logo":"./logo/livetv/globetv.png","enabled":true}
+    ]
+  },
+  {
+    "id": "paid",
+    "name": "Paid Services",
+    "sites": [
+      {"name":"Disney+","url":"https://www.disneyplus.com/identity/login/","logo":"./logo/paid_apps/disney+.png","enabled":true},
+      {"name":"Shudder","url":"https://www.shudder.com/","logo":"./logo/paid_apps/shudder.png","enabled":true},
+      {"name":"Hulu","url":"https://auth.hulu.com/web/login/","logo":"./logo/paid_apps/hulu.png","enabled":true},
+      {"name":"Netflix","url":"https://www.netflix.com/","logo":"./logo/paid_apps/netflix.png","enabled":true},
+      {"name":"Viki","url":"https://www.viki.com/","logo":"./logo/paid_apps/viki.png","enabled":true},
+      {"name":"MAX","url":"https://www.max.com/","logo":"https://www.hbomax.com/img/hbomax/logo_nav_bar.png","enabled":true},
+      {"name":"Apple TV+","url":"https://tv.apple.com/","logo":"./logo/paid_apps/appletv.png","enabled":true},
+      {"name":"Amazon Prime","url":"https://www.amazon.com/gp/video/collection/IncludedwithPrime","logo":"https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg","enabled":true},
+      {"name":"Paramount+","url":"https://www.paramountplus.com/account/signin/","logo":"https://wwwimage-us.pplusstatic.com/base/files/cbs_page_attribute/pplus_logo_white.svg?v=1.0","enabled":true},
+      {"name":"Crunchyroll","url":"https://sso-v2.crunchyroll.com/login","logo":"./logo/paid_apps/cruncyroll.png","enabled":true},
+      {"name":"MGM+","url":"https://www.mgmplus.com/","logo":"./logo/paid_apps/mgm+.png","enabled":true},
+      {"name":"Peacock","url":"https://www.peacocktv.com/start","logo":"./logo/paid_apps/Peacock.png","enabled":true},
+      {"name":"AMC+","url":"https://www.amcplus.com/login","logo":"./logo/paid_apps/amc+.png","enabled":true}
+    ]
+  },
+  {
+    "id": "apps",
+    "name": "Apps",
+    "sites": [
+      {"name":"Playtorrio","url":"https://playtorrio.pages.dev/","logo":"./logo/apps/playtorrio.png","enabled":true},
+      {"name":"OnStream APKs","url":"https://onstreamapks.app/","logo":"./logo/apps/onstream.png","enabled":true},
+      {"name":"HDO Box","url":"https://hdobox.net/","logo":"./logo/apps/hdobox.png","enabled":true},
+      {"name":"BeeTV","url":"https://beetv.download/","logo":"./logo/apps/beetv.png","enabled":true},
+      {"name":"MovieBox","url":"https://themoviebox.org/download-app","logo":"./logo/apps/moviebox.png","enabled":true},
+      {"name":"NetMirror","url":"https://netmirror.gg/2/en","logo":"./logo/apps/netmirror.png","enabled":true},
+      {"name":"PikaShow","url":"https://pikashowtv.in/","logo":"./logo/apps/pikashow.png","enabled":true}
+    ]
+  }
 ];
+
+/* Build LINKS array from CATEGORIES */
+const LINKS = [];
+CATEGORIES.forEach(cat => {
+  cat.sites.forEach(s => {
+    if (!s.enabled) return;
+    let img = s.logo || '';
+    if (img.startsWith('./')) img = img.replace('./logo/', 'assets/logo/');
+    LINKS.push({
+      id: (cat.id + '_' + (s.name || '').replace(/\s+/g,'_').toLowerCase()),
+      title: s.name,
+      url: s.url,
+      category: cat.id,
+      image: img
+    });
+  });
+});
 
 /* default category order & labels */
 const DEFAULT_CATEGORY_ORDER = [
@@ -25,12 +152,13 @@ const DEFAULT_CATEGORY_ORDER = [
   { key: "anime", label: "Anime" },
   { key: "livetv", label: "Live TV" },
   { key: "manga", label: "Manga" },
-  { key: "paidapps", label: "Paid Apps" }
+  { key: "paid", label: "Paid Services" },
+  { key: "apps", label: "Apps" }
 ];
 
 /* localStorage keys */
-const LS_HIDDEN = "chibi_hidden_links_v2";
-const LS_CAT_ORDER = "chibi_cat_order_v2";
+const LS_HIDDEN = "chibi_hidden_links_v3";
+const LS_CAT_ORDER = "chibi_cat_order_v3";
 
 /* fallback image */
 const DEFAULT_IMAGE = "https://placekitten.com/640/400";
@@ -49,11 +177,10 @@ const resetPrefs = document.getElementById("resetPrefs");
 let hiddenLinks = JSON.parse(localStorage.getItem(LS_HIDDEN) || "[]");
 let storedCatOrder = JSON.parse(localStorage.getItem(LS_CAT_ORDER) || "null");
 
-/* compute category order */
 function getCategoryOrder() {
   const allCats = Array.from(new Set(LINKS.map(l => l.category)));
   const defaultKeys = DEFAULT_CATEGORY_ORDER.map(d => d.key);
-  let order = storedCatOrder && Array.isArray(storedCatOrder) ? storedCatOrder : defaultKeys.slice();
+  let order = (storedCatOrder && Array.isArray(storedCatOrder)) ? storedCatOrder : defaultKeys.slice();
   allCats.forEach(c => { if (!order.includes(c)) order.push(c); });
   order = order.filter(c => allCats.includes(c));
   return order;
@@ -64,31 +191,24 @@ function labelFor(key) {
   return match ? match.label : key.charAt(0).toUpperCase() + key.slice(1);
 }
 
-/* render sections */
 function renderAll(query = "") {
   const q = query.trim().toLowerCase();
   content.innerHTML = "";
-
   const order = getCategoryOrder();
-  if (order.length === 0) {
-    content.innerHTML = `<p class="muted">No links configured. Edit script.js to add links.</p>`;
-    return;
-  }
+  if (order.length === 0) { content.innerHTML = `<p class="muted">No links configured.</p>`; return; }
 
   order.forEach(catKey => {
     const section = document.createElement("section");
     section.className = "section";
-
     const heading = document.createElement("h2");
     heading.textContent = labelFor(catKey);
     section.appendChild(heading);
-
     const grid = document.createElement("div");
     grid.className = "grid";
 
     const items = LINKS
       .filter(l => l.category === catKey && !hiddenLinks.includes(l.id))
-      .filter(l => { if (!q) return true; return l.title.toLowerCase().includes(q) || l.category.toLowerCase().includes(q); });
+      .filter(l => !q || l.title.toLowerCase().includes(q) || l.category.toLowerCase().includes(q));
 
     if (items.length === 0) {
       const p = document.createElement("p");
@@ -117,7 +237,7 @@ function renderAll(query = "") {
 
       const overlay = document.createElement("div");
       overlay.className = "overlay";
-      overlay.innerHTML = `<div class="label">${escapeHtml(item.title)}</div>`;
+      overlay.innerHTML = '<div class="label">' + escapeHtml(item.title) + '</div>';
 
       a.appendChild(img);
       card.appendChild(a);
@@ -141,32 +261,14 @@ function renderAll(query = "") {
   });
 }
 
-/* helper */
-function escapeHtml(s = "") {
-  return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); });
-}
+function escapeHtml(s = "") { return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); }); }
 
-/* hide / restore */
-function hideLink(id) {
-  if (!hiddenLinks.includes(id)) hiddenLinks.push(id);
-  localStorage.setItem(LS_HIDDEN, JSON.stringify(hiddenLinks));
-  renderAll(searchEl.value);
-  renderHiddenList();
-}
-function restoreLink(id) {
-  hiddenLinks = hiddenLinks.filter(x => x !== id);
-  localStorage.setItem(LS_HIDDEN, JSON.stringify(hiddenLinks));
-  renderAll(searchEl.value);
-  renderHiddenList();
-}
+function hideLink(id) { if (!hiddenLinks.includes(id)) hiddenLinks.push(id); localStorage.setItem(LS_HIDDEN, JSON.stringify(hiddenLinks)); renderAll(searchEl.value); renderHiddenList(); }
+function restoreLink(id) { hiddenLinks = hiddenLinks.filter(x => x !== id); localStorage.setItem(LS_HIDDEN, JSON.stringify(hiddenLinks)); renderAll(searchEl.value); renderHiddenList(); }
 
-/* hidden list */
 function renderHiddenList(){
   hiddenList.innerHTML = "";
-  if (hiddenLinks.length === 0) {
-    hiddenList.innerHTML = `<div class="muted">No hidden links.</div>`;
-    return;
-  }
+  if (hiddenLinks.length === 0) { hiddenList.innerHTML = `<div class="muted">No hidden links.</div>`; return; }
   hiddenLinks.forEach(id => {
     const item = LINKS.find(l => l.id === id);
     if (!item) return;
@@ -182,7 +284,6 @@ function renderHiddenList(){
   });
 }
 
-/* category reorder controls */
 function renderCategoryList(){
   categoryList.innerHTML = "";
   const order = getCategoryOrder();
@@ -220,7 +321,6 @@ function moveCategory(key, delta) {
   renderAll(searchEl.value);
 }
 
-/* reset preferences */
 function resetPreferences(){
   if (!confirm("Reset your hidden links and category order? This only affects your browser.")) return;
   hiddenLinks = [];
@@ -239,7 +339,7 @@ manageBtn.addEventListener("click", () => {
   renderHiddenList();
   renderCategoryList();
 });
-closeManageBtn.addEventListener("click", () => {
+if (closeManageBtn) closeManageBtn.addEventListener("click", () => {
   managePanel.classList.add("hidden");
   managePanel.setAttribute("aria-hidden", "true");
 });
@@ -248,7 +348,27 @@ resetPrefs.addEventListener("click", resetPreferences);
 /* search */
 searchEl.addEventListener("input", () => { renderAll(searchEl.value); });
 
+/* BTC QR modal handling */
+const qrModal = document.getElementById('qrModal');
+const qrImage = document.getElementById('qrImage');
+const btcAddr = document.getElementById('btcAddr');
+const BTC_ADDRESS = 'YOUR_BITCOIN_ADDRESS'; // <--- replace this with your actual BTC address
+
+document.getElementById('btcBtn').addEventListener('click', () => {
+  const addr = BTC_ADDRESS;
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=' + encodeURIComponent('bitcoin:' + addr);
+  qrImage.innerHTML = '<img src="' + qrUrl + '" alt="BTC QR">';
+  btcAddr.textContent = addr;
+  qrModal.classList.remove('hidden');
+  qrModal.setAttribute('aria-hidden','false');
+});
+document.getElementById('closeQr').addEventListener('click', () => {
+  qrModal.classList.add('hidden');
+  qrModal.setAttribute('aria-hidden','true');
+  qrImage.innerHTML = '';
+});
+
 /* initial render */
 renderHiddenList();
 renderCategoryList();
-renderAll("");
+renderAll('');
